@@ -1,0 +1,2 @@
+Hola mundo desde write en el with
+Hola mundo desde append en el with
