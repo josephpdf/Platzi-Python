@@ -33,3 +33,11 @@ def fetch_news_from_api(api_name, query):
 def process_article_data(raw_data):
     """Procesa datos crudos de artículo."""
     pass
+
+
+# Longitud de línea: Máximo 88 caracteres (Ruff default)
+# Indentación: 4 espacios, nunca tabs
+# Nombres descriptivos: snake_case para funciones y variables
+# Imports ordenados: estándar → terceros → locales
+# Líneas en blanco: Separar funciones y clases lógicamente
+# Comillas consistentes: Usar comillas dobles para strings
