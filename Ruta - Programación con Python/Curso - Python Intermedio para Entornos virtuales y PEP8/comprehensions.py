@@ -127,3 +127,31 @@ def extract_name_sources_comprehension(articles):
 print(extract_name_sources(sample_articles))
 print("-------------------------")
 print(extract_name_sources_comprehension(sample_articles))
+
+print("#################################")
+
+
+# Soluciion del reto del profesor
+def get_source_traditional(articles):
+    sources = set()
+    for article in articles:
+        if article.get("source") and article.get("source").get("name"):
+            sources.add(article.get("source").get("name"))
+    return sources
+
+
+def get_source_comprehension(articles):
+    # {expression
+    # for member in iterable
+    # [if condition]
+    # }
+    return {
+        article.get("source").get("name")
+        for article in articles
+        if article.get("source") and article.get("source").get("name")
+    }
+
+
+print(get_source_traditional(sample_articles))
+print("-------------------------")
+print(get_source_comprehension(sample_articles))
