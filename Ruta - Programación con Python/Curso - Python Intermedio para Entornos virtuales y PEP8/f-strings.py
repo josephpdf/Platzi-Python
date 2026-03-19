@@ -71,4 +71,19 @@ print("-------------------------")
 
 date = datetime(2024, 12, 5, 10, 10)
 text = f"La fecha completa es: {date: %A %d de %B de %Y a las %I:%M %p}"  # Formato personalizado para fecha
-+print(text)
+print(text)
+
+print("-------------------------")
+
+# Reto clase -  Formatear porcentaje y número cientifico
+value = 0.123456789
+text = f"El valor formateado como porcentaje es: {value:.2%}"  # Formato de porcentaje
+print(text)
+
+print("-------------------------")
+
+number = 1234567890
+text = (
+    f"El número en formato científico es: {number:.2e}"  # Formato de número científico
+)
+print(text)
