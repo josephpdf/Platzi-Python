@@ -107,7 +107,7 @@ print("#################################")
 
 
 # Reto Lista sin que se repita de todas fuentes usando set, primero  tradicional y luego comprehension
-def extract_name_sources(articles):
+def extract_name_sources_traditional(articles):
     """Extrae solo los nombres de las fuentes de los artículos sin que se repitan"""
     sources = set()  # Usamos un set para evitar duplicados
     for article in articles:  # Iteramos sobre cada artículo
@@ -117,22 +117,22 @@ def extract_name_sources(articles):
     return list(sources)  # Convertimos el set a lista para el retorno
 
 
-def extract_name_sources_comprehension(articles):
+def extract_name_sources(articles):
     """Extrae solo los nombres de las fuentes de los artículos sin que se repitan usando comprensión de listas."""
     return list(
         {article["source"]["name"] for article in articles}
     )  # Usamos un set comprehension para obtener nombres únicos y luego convertimos a lista
 
 
-print(extract_name_sources(sample_articles))
+print(extract_name_sources_traditional(sample_articles))
 print("-------------------------")
-print(extract_name_sources_comprehension(sample_articles))
+print(extract_name_sources(sample_articles))
 
 print("#################################")
 
 
 # Soluciion del reto del profesor
-def get_source_traditional(articles):
+def get_sources_traditional(articles):
     sources = set()
     for article in articles:
         if article.get("source") and article.get("source").get("name"):
@@ -140,7 +140,7 @@ def get_source_traditional(articles):
     return sources
 
 
-def get_source_comprehension(articles):
+def get_sources(articles):
     # {expression
     # for member in iterable
     # [if condition]
@@ -152,6 +152,39 @@ def get_source_comprehension(articles):
     }
 
 
-print(get_source_traditional(sample_articles))
+print(get_sources_traditional(sample_articles))
 print("-------------------------")
-print(get_source_comprehension(sample_articles))
+print(get_sources(sample_articles))
+
+print("#################################")
+
+
+# Clase 4 -  Categorizar
+def categorize_traditional(articles):
+    sources = get_sources(sample_articles)
+    results = {}
+    for source in sources:
+        if source not in results:
+            results[source] = []
+
+        for article in articles:
+            if source == article.get("source").get("name"):
+                results[source].append(article)
+    return results
+
+
+def categorize(articles):
+    sources = get_sources(sample_articles)
+    return {
+        source: [
+            article
+            for article in articles
+            if source == article.get("source").get("name")
+        ]
+        for source in sources
+    }
+
+
+print(categorize_traditional(sample_articles))
+print("-------------------------")
+print(categorize(sample_articles))
