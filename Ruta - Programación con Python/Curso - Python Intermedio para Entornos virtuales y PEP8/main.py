@@ -41,3 +41,54 @@ def process_article_data(raw_data):
 # Imports ordenados: estándar → terceros → locales
 # Líneas en blanco: Separar funciones y clases lógicamente
 # Comillas consistentes: Usar comillas dobles para strings
+
+print("-----------------------------")
+
+
+def newsapi_client(api_key, query, timeout=30, retries=3):
+    return f"NewsAPI: {query} con timeout {timeout}"
+
+
+def guardian_client(api_key, section, from_date, timeout=30, retries=3):
+    return f"Guardian {section} desde {from_date} con timeout {timeout}"
+
+
+def ejemplo_args(*args):
+    print(f"TODOS {args}")
+    print(f"{type(args)}")
+
+
+ejemplo_args("Este", "parametro", "acá")
+ejemplo_args("hola", "mundo")
+ejemplo_args()
+
+
+print("-----------------------------")
+
+
+def ejemplo_args(api_key, *args):
+    print(f"api_key: {api_key}")
+    print(f"args: {args}")
+    print(f"type args: {type(args)}")
+    print("====")
+
+
+ejemplo_args("API_KEY_VALUE", "Este", "parametro", "acá")
+ejemplo_args("API_KEY_VALUE", "Hola", "Mundo")
+# ejemplo_args()
+
+print("-----------------------------")
+
+
+# Reto Clase 7 - Crear una funcion que sume los números que se le pasen como argumentos
+def sumar_numeros_traditional(*args):
+    return sum(args)
+
+
+def sumar_numeros_comprenhension(*args):
+    return sum([x for x in args if isinstance(x, (int, float))])
+
+
+print(sumar_numeros_traditional(1, 2, 3, 50))
+print("#######################")
+print(sumar_numeros_comprenhension(1, 2, 3, "hOLA", 10.2, 50))
