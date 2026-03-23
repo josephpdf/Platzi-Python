@@ -92,3 +92,56 @@ def sumar_numeros_comprenhension(*args):
 print(sumar_numeros_traditional(1, 2, 3, 50))
 print("#######################")
 print(sumar_numeros_comprenhension(1, 2, 3, "hOLA", 10.2, 50))
+
+
+print("-----------------------------")
+
+
+def ejemplo_kwargs(**kwargs):
+    print(f"kewargs: {type(kwargs)}")
+    print(f"kwargs: {kwargs}")
+    print("====")
+
+
+ejemplo_kwargs(key="value", llave="valor")
+
+ejemplo_kwargs(
+    api_key="DEMO",
+    query="Noticias de Python",
+    timeout=30,
+    retries=3,
+)
+
+ejemplo_kwargs(
+    api_key="DEMO_GUARDIAN",
+    section="Sports",
+    from_date="2020-10-20",
+    timeout=30,
+    retries=3,
+)
+
+print("-----------------------------")
+
+
+def fetch_news(api_name, *args, **kwargs):
+    """
+    Fución flexible para conectar con la API
+    """
+
+    base_config = {
+        "timeout": 30,
+        "retries": 3,
+    }
+
+    config = {
+        **base_config,
+        **kwargs,
+    }
+
+    api_clients = {
+        "newapi": newsapi_client,
+        "guardian": guardian_client,
+    }
+
+    client = api_clients[api_name]
+    return client(*args, **config)
