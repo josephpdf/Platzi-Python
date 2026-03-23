@@ -1,3 +1,7 @@
+import json  # Clase 8 - Importación de librería para manejo de JSON
+import urllib.parse  # Clase 8 - Importación de librería para manejo de URLs
+import urllib.request  # Clase 8 - Importación de librería para hacer solicitudes HTTP
+
 # main.py - Todo el código en un archivo
 """
 Sistema de análisis de noticias con APIs múltiples.
@@ -7,6 +11,9 @@ Sistema de análisis de noticias con APIs múltiples.
 API_TIMEOUT = 30
 MAX_RETRIES = 3
 DEFAULT_LANGUAGE = "es"  # PEP 8: Comillas dobles para strings
+
+API_KEY = "bf6563dd552b4572af251ef2460f22f4"  # Clase 8
+BASE_URL = "https://newsapi.org/v2/everything"  # Clase 8
 
 
 # PEP 8: Utilidades comunes del proyecto - funciones en snake_case
@@ -45,7 +52,7 @@ def process_article_data(raw_data):
 print("-----------------------------")
 
 
-def newsapi_client(api_key, query, timeout=30, retries=3):
+def newsapi_client_1(api_key, query, timeout=30, retries=3):
     return f"NewsAPI: {query} con timeout {timeout}"
 
 
@@ -148,14 +155,34 @@ def fetch_news(api_name, *args, **kwargs):
 
 
 # Reto clase 8 - Crear API en página de NewsAPI, instalar la librería request y agregar la libreria adentro de la función que me va a permitir consultar las noticias
-def get_news(api_key, topic="python"):
-    """Obtiene noticias usando requests (importado dentro de la función)."""
-    import requests  # Importación local de la librería
+# def get_news(api_key, topic="python"):
+#     """Obtiene noticias usando requests (importado dentro de la función)."""
+#     import requests  # Importación local de la librería
 
-    url = f"https://newsapi.org/v2/everything?q={topic}&apiKey={api_key}&language=es"
-    response = requests.get(url)
-    return response.json()
+#     url = f"https://newsapi.org/v2/everything?q={topic}&apiKey={api_key}&language=es"
+#     response = requests.get(url)
+#     return response.json()
 
 
-current_api_key = "bf6563dd552b4572af251ef2460f22f4"
-print(get_news(current_api_key, "Tecnología"))
+# current_api_key = "bf6563dd552b4572af251ef2460f22f4"
+# print(get_news(current_api_key, "Tecnología"))
+
+
+# Solución clase 8
+def newsapi_client(api_key, query, timeout=30, retries=3):
+    query_string = urllib.parse.urlencode(
+        {"q": query, "apiKey": api_key}
+    )  # , "language": "es"
+    # print(f"Query string: {query_string}")  # Imprime el query string generado
+    url = f"{BASE_URL}?{query_string}"
+    # print(f"URL completa: {url}")  # Imprime la URL completa antes de hacer la solicitud
+
+    with urllib.request.urlopen(url, timeout=timeout) as response:
+        data = response.read().decode("utf-8")
+        return json.loads(data)  # Verifica que el JSON sea válido
+    return f"NewsAPI: {query} con timeout {timeout}"
+
+
+response_data = fetch_news("newapi", api_key=API_KEY, query="Python")
+for article in response_data["articles"]:
+    print(article["title"])
