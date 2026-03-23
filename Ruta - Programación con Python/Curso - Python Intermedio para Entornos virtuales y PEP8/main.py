@@ -145,3 +145,17 @@ def fetch_news(api_name, *args, **kwargs):
 
     client = api_clients[api_name]
     return client(*args, **config)
+
+
+# Reto clase 8 - Crear API en página de NewsAPI, instalar la librería request y agregar la libreria adentro de la función que me va a permitir consultar las noticias
+def get_news(api_key, topic="python"):
+    """Obtiene noticias usando requests (importado dentro de la función)."""
+    import requests  # Importación local de la librería
+
+    url = f"https://newsapi.org/v2/everything?q={topic}&apiKey={api_key}&language=es"
+    response = requests.get(url)
+    return response.json()
+
+
+current_api_key = "bf6563dd552b4572af251ef2460f22f4"
+print(get_news(current_api_key, "Tecnología"))
