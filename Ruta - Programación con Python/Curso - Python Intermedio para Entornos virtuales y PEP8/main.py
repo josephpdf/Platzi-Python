@@ -1,4 +1,5 @@
 import json  # Clase 8 - Importación de librería para manejo de JSON
+import urllib.error
 import urllib.parse  # Clase 8 - Importación de librería para manejo de URLs
 import urllib.request  # Clase 8 - Importación de librería para hacer solicitudes HTTP
 
@@ -12,7 +13,7 @@ API_TIMEOUT = 30
 MAX_RETRIES = 3
 DEFAULT_LANGUAGE = "es"  # PEP 8: Comillas dobles para strings
 
-API_KEY = "bf6563dd552b4572af251ef2460f22f4"  # Clase 8
+API_KEY = "bf6563dd552b4572af251ef2460f22f4AAA"  # Clase 8
 BASE_URL = "https://newsapi.org/v2/everything"  # Clase 8
 
 
@@ -177,9 +178,13 @@ def newsapi_client(api_key, query, timeout=30, retries=3):
     url = f"{BASE_URL}?{query_string}"
     # print(f"URL completa: {url}")  # Imprime la URL completa antes de hacer la solicitud
 
-    with urllib.request.urlopen(url, timeout=timeout) as response:
-        data = response.read().decode("utf-8")
-        return json.loads(data)  # Verifica que el JSON sea válido
+    try:
+        with urllib.request.urlopen(url, timeout=timeout) as response:
+            data = response.read().decode("utf-8")
+            return json.loads(data)  # Verifica que el JSON sea válido
+    except urllib.error.HTTPError:
+        print("La API KEY no es válida o se ha excedido el límite de solicitudes")
+        return {"articles": []}  # Retorna un resultado vacío en caso de error
     return f"NewsAPI: {query} con timeout {timeout}"
 
 
