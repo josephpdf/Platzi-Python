@@ -10,3 +10,7 @@ except ValueError:
     print("El valor que digitó no es un número válido")
 except ZeroDivisionError:
     print("No está permitido dividir por 0")
+finally:
+    print("Esto se ejecuta siempre, haya o no un error")
+
+print("Fin del programa")
