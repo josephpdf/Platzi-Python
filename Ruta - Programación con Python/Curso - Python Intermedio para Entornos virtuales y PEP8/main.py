@@ -17,6 +17,18 @@ API_KEY = "bf6563dd552b4572af251ef2460f22f4AAA"  # Clase 8
 BASE_URL = "https://newsapi.org/v2/everything"  # Clase 8
 
 
+class NewsSystemError(Exception):
+    """Error general en la app"""
+
+    pass
+
+
+class APIKeyError(NewsSystemError):
+    """Error cuando la API KEY es invalida"""
+
+    pass
+
+
 # PEP 8: Utilidades comunes del proyecto - funciones en snake_case
 def clean_text(text):
     # PEP 8: 4 espacios por indentación, no tabs
@@ -183,11 +195,20 @@ def newsapi_client(api_key, query, timeout=30, retries=3):
             data = response.read().decode("utf-8")
             return json.loads(data)  # Verifica que el JSON sea válido
     except urllib.error.HTTPError:
-        print("La API KEY no es válida o se ha excedido el límite de solicitudes")
-        return {"articles": []}  # Retorna un resultado vacío en caso de error
+        raise APIKeyError(
+            "Ocurrion un error, no se pudo obtener la información de la API"
+        )
+        # print("La API KEY no es válida o se ha excedido el límite de solicitudes")
+        # return {"articles": []}  # Retorna un resultado vacío en caso de error
     return f"NewsAPI: {query} con timeout {timeout}"
 
 
-response_data = fetch_news("newapi", api_key=API_KEY, query="Python")
-for article in response_data["articles"]:
-    print(article["title"])
+response_data = None
+try:
+    response_data = fetch_news("newapi", api_key=API_KEY, query="Python")
+except APIKeyError as e:
+    print(f"{e}")
+
+if response_data:
+    for article in response_data["articles"]:
+        print(article["title"])
